@@ -7,6 +7,29 @@ class ProdutosController < ApplicationController
 
 	def create
 		valores = params.require(:produto).permit(:nome, :descricao, :quantidade, :preco)
-		Produto.create valores
+		@produto = Produto.new valores
+
+		if @produto.save
+			flash[:notice] = "Produto inserido com sucesso!!!"
+			redirect_to root_url
+		else
+			render :new
+		end
+
+	end
+
+	def destroy
+		id = params[:id]
+		Produto.destroy id
+		redirect_to root_url
+	end
+
+	def busca
+		@nome = params[:nome]
+		@produtos = Produto.where "nome like ?", "%#{@nome}%" 
+	end
+
+	def new
+		@produto = Produto.new
 	end
 end
