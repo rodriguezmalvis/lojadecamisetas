@@ -6,7 +6,7 @@ class ProdutosController < ApplicationController
 	end
 
 	def create
-		valores = params.require(:produto).permit(:nome, :descricao, :quantidade, :preco)
+		valores = params.require(:produto).permit(:nome, :descricao, :quantidade, :preco, :departamento_id)
 		@produto = Produto.new valores
 
 		if @produto.save
@@ -31,5 +31,11 @@ class ProdutosController < ApplicationController
 
 	def new
 		@produto = Produto.new
+		@departamentos = Departamento.all
+	end
+
+	def edit
+		id = params[:id]
+		@produto = Produto.find(id)
 	end
 end
